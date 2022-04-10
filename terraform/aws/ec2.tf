@@ -51,6 +51,8 @@ resource "aws_ebs_volume" "web_host_storage" {
 }
 
 resource "aws_ebs_snapshot" "example_snapshot" {
+  
+  
   # ebs snapshot without encryption
   volume_id   = "${aws_ebs_volume.web_host_storage.id}"
   description = "${local.resource_prefix.value}-ebs-snapshot"
@@ -69,12 +71,15 @@ resource "aws_ebs_snapshot" "example_snapshot" {
 }
 
 resource "aws_volume_attachment" "ebs_att" {
+  
   device_name = "/dev/sdh"
   volume_id   = "${aws_ebs_volume.web_host_storage.id}"
   instance_id = "${aws_instance.web_host.id}"
 }
 
 resource "aws_security_group" "web-node" {
+  
+  
   # security group is open to the world in SSH port
   name        = "${local.resource_prefix.value}-sg"
   description = "${local.resource_prefix.value} Security Group"
@@ -174,6 +179,8 @@ resource "aws_subnet" "web_subnet2" {
 
 
 resource "aws_internet_gateway" "web_igw" {
+  
+  
   vpc_id = aws_vpc.web_vpc.id
 
   tags = merge({
@@ -208,6 +215,7 @@ resource "aws_route_table" "web_rtb" {
 }
 
 resource "aws_route_table_association" "rtbassoc" {
+  
   subnet_id      = aws_subnet.web_subnet.id
   route_table_id = aws_route_table.web_rtb.id
 }
